@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using BotTwitch.Classes;
+﻿using BotTwitch.Classes;
 
 Console.WriteLine("Inicializando!");
 
@@ -10,4 +9,5 @@ var values = connect.GetParamsToConnect();
 Bot bot = new(values.Item1, values.Item2);
 
 bot.Connect(true);
-bot.Disconnect();
+Console.ReadLine();
+// bot.Disconnect();

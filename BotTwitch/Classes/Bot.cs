@@ -5,13 +5,14 @@ using TwitchLib.Client.Models;
 namespace BotTwitch.Classes;
 
 public class Bot {
+    //https://github.com/TwitchLib/TwitchLib/blob/master/README.md
     private static string channelName = "";
 
     private static string tokenTwitch = "";
 
     ConnectionCredentials creds = null;
 
-    TwitchClient twitchClient = new();
+    TwitchClient twitchClient = null;
 
     public Bot(string channelNameArg, string tokenTwitchArg) {
         channelName = channelNameArg;
@@ -20,11 +21,15 @@ public class Bot {
     }
 
     public void Connect(bool isLogging) {
-        // twitchClient = new();
+        twitchClient = new();
         twitchClient.Initialize(creds, channelName);
+        
+        SendMessage sendMessage = new(twitchClient);
+        ReceiveMessage receiveMessage = new(twitchClient);
 
         if (isLogging) twitchClient.OnLog += ClientOnLog;
 
+        twitchClient.OnMessageReceived += receiveMessage.ReceiveAnyMessage;
         twitchClient.Connect();
     }
 

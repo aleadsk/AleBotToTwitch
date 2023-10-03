@@ -23,13 +23,14 @@ public class Bot {
     public void Connect(bool isLogging) {
         twitchClient = new();
         twitchClient.Initialize(creds, channelName);
-        
+        ReceiveMessage receiveMessage = new(twitchClient);      
         SendMessage sendMessage = new(twitchClient);
-        ReceiveMessage receiveMessage = new(twitchClient);
 
         if (isLogging) twitchClient.OnLog += ClientOnLog;
 
+        twitchClient.OnJoinedChannel += sendMessage.ClientOnJoinedChannel;
         twitchClient.OnMessageReceived += receiveMessage.ReceiveAnyMessage;
+        twitchClient.OnConnected += SendMessagesByTime;
         twitchClient.Connect();
     }
 
@@ -39,5 +40,14 @@ public class Bot {
 
     private void ClientOnLog(object sender, OnLogArgs e) {
         Console.WriteLine(e.Data);
+    }
+
+    private void SendMessagesByTime(object sender, OnConnectedArgs e) {        
+        SendMessage sendMessage = new(twitchClient);
+
+        sendMessage.SendDiscordLinkByAnyMinutes(sender, e);
+        sendMessage.SendFacebookLinkByAnyMinutes(sender, e);
+        sendMessage.SendInstagramLinkByAnyMinutes(sender, e);
+        sendMessage.SendYouTubeLinkByAnyMinutes(sender, e);
     }
 }

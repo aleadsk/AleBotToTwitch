@@ -16,13 +16,16 @@ public class ReceiveMessage {
 
         switch (message) {
             case string m when m.Contains("!discord"):
-                _sendMessage.SendDiscordLink();
+                _sendMessage.SendDiscordLink(sender);
                 break;
             case string m when m.Contains("!facebook"):
-                _sendMessage.SendFacebookLink();
+                _sendMessage.SendFacebookLink(sender);
                 break;
             case string m when m.Contains("!instagram"):
-                _sendMessage.SendInstagramLink();
+                _sendMessage.SendInstagramLink(sender);
+                break;
+            case string m when m.Contains("!youtube"):
+                _sendMessage.SendYouTubeLink(sender);
                 break;
         }
     }

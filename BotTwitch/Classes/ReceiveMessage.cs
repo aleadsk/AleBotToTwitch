@@ -27,6 +27,9 @@ public class ReceiveMessage {
             case string m when m.Contains("!youtube"):
                 _sendMessage.SendYouTubeLink(sender);
                 break;
+            case string m when m.Contains("!social"):
+                _sendMessage.SendSocialLink(sender);
+                break;
         }
     }
 }
